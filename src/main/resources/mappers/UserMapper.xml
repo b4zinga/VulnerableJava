@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.vulnerablejava.mapper.UserMapper">
+    <select id="findUserByName" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users WHERE username='${name}';
+    </select>
+
+    <select id="findUserByNameSafety" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users WHERE username=#{name};
+    </select>
+
+    <select id="findUserByName2" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM ${table} WHERE username=#{name};
+    </select>
+</mapper>
