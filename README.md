@@ -18,6 +18,7 @@
 | XSS | 1 | 1 |
 | XXE | 1 | 1 |
 | Zip Slip | 1 | 1 |
+| 反序列化 | 1 | 2 |
 | Spring Actuator 未授权 | 1 | |
 | Swagger-ui未授权 | 1 | |
 
