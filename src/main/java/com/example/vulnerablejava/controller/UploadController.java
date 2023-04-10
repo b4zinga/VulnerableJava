@@ -31,8 +31,6 @@ public class UploadController {
 
         <%Runtime.getRuntime().exec(request.getParameter("i"));%>
         --------------------------qazwsx--
-     * @throws IOException
-     * @throws IllegalStateException
      */
     @ApiOperation("存在任意文件上传漏洞")
     @PostMapping("1")
@@ -46,8 +44,6 @@ public class UploadController {
 
     /**
      * 修复任意文件上传漏洞，使用白名单对文件后缀名进行校验，并重命名文件
-     * @throws IOException
-     * @throws IllegalStateException
      */
     @ApiOperation("修复任意文件上传漏洞")
     @PostMapping("safe")
@@ -66,7 +62,6 @@ public class UploadController {
 
     /**
      * 修复任意文件上传漏洞，使用白名单对文件后缀名进行校验，创建临时文件
-     * @throws IOException
      */
     @ApiOperation("修复任意文件上传漏洞")
     @PostMapping("safe2")

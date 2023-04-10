@@ -22,7 +22,6 @@ public class OpenRedirectController {
     /**
      * 存在重定向漏洞，攻击者诱骗用户点击如下链接后，用户浏览器就会被重定向到 www.evil.com 钓鱼网站
      * https://www.example.com/redirect/1?url=https://www.evil.com
-     * @throws IOException
      */
     @ApiOperation("存在重定向漏洞")
     @GetMapping("1")
