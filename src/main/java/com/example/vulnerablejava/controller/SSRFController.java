@@ -85,4 +85,16 @@ public class SSRFController {
             return "参数不合法";
         }
     }
+
+    /**
+     * 误报案例，数据流追踪错误导致误报
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("5")
+    public String download5(String name) {
+        Image image = new Image();
+        image.setName(name);
+        image.setUrl("www.example.com");
+        return HttpUtil.doGet(image.getUrl());
+    }
 }
