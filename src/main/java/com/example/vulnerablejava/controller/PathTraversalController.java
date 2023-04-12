@@ -3,6 +3,7 @@ package com.example.vulnerablejava.controller;
 import java.io.File;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,5 +57,14 @@ public class PathTraversalController {
         String dataDir = System.getProperty("user.dir");
         String fileName = filePath.substring(filePath.lastIndexOf("/"));
         return FileUtil.readFile(dataDir + fileName);
+    }
+
+    /**
+     * 误报案例，@PathVariable 传参，不可利用
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("3/{fileName}")
+    public String read3(@PathVariable String fileName) {
+        return FileUtil.readFile(fileName);
     }
 }
