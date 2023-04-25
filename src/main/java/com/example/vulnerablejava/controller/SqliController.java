@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +15,7 @@ import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +39,15 @@ public class SqliController {
     private String password;
     @Value("${spring.datasource.driver-class-name}")
     private String driver;
+
+    @Autowired
+    private UserMapper userMapper;
+    @PersistenceContext
+    private EntityManager entityManager;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     /**
      * 存在SQL注入漏洞，字符串直接拼接导致
@@ -90,8 +102,6 @@ public class SqliController {
         return sb.toString();
     }
 
-    @Autowired
-    private UserMapper userMapper;
     /**
      * 存在MyBatis SQL注入漏洞，MyBatis使用${}传参导致
      * 当攻击者传入 ?name='or+1=1+limit+1;时，即可查询所有数据
@@ -120,8 +130,6 @@ public class SqliController {
         return userMapper.findUserByName2(name).toString();
     }
 
-    @PersistenceContext
-    private EntityManager entityManager;
     /**
      * 存在JPA SQL注入漏洞，使用createNativeQuery执行原生SQL拼接导致
      * 当攻击者传入 ?name='or+1=1;时，即可查询所有数据
@@ -166,8 +174,6 @@ public class SqliController {
         return sb.toString();
     }
 
-    @Autowired
-    private UserDao userDao;
     /**
      * 修复JPA SQL注入漏洞，使用JPA原生SQL和?1占位符进行预编译
      */
@@ -193,5 +199,43 @@ public class SqliController {
     @GetMapping("8")
     public String getUser8(String name) {
         return userDao.findByName3(name).toString();
+    }
+
+    /**
+     * 存在JdbcTemplate SQL注入漏洞
+     */
+    @ApiOperation("存在JdbcTemplate SQL注入漏洞")
+    @GetMapping("9")
+    public String getUser9(String name) {
+        String sql = String.format("SELECT * FROM users WHERE username='%s';", name);
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql);
+        StringBuilder sb = new StringBuilder();
+        for (Map<String,Object> map : mapList) {
+            for (Map.Entry<String, Object>entry : map.entrySet()) {
+                String info = String.format("%s: %s\n",entry.getKey(), entry.getValue());
+                sb.append(info);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 修复JdbcTemplate SQL注入漏洞，使用预编译
+     */
+    @ApiOperation("修复JdbcTemplate SQL注入漏洞")
+    @GetMapping("10")
+    public String getUser10(String name) {
+        String sql = "SELECT * FROM users WHERE username=:name";
+        Map<String, Object> param = new HashMap<>();
+        param.put("name", name);
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql, param);
+        StringBuilder sb = new StringBuilder();
+        for (Map<String,Object> map : mapList) {
+            for (Map.Entry<String, Object>entry : map.entrySet()) {
+                String info = String.format("%s: %s\n",entry.getKey(), entry.getValue());
+                sb.append(info);
+            }
+        }
+        return sb.toString();
     }
 }
