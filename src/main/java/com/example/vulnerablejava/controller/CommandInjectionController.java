@@ -2,6 +2,8 @@ package com.example.vulnerablejava.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +62,32 @@ public class CommandInjectionController {
             while((line = bf.readLine()) != null){
                 sb.append(line + "\n");
             }
+        } catch (Exception e) {
+            return e.toString();
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 误报案例，未调用shell执行命令，不可利用
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("3")
+    public String query3(String domain) {
+        List<String> commands = new ArrayList<>();
+        commands.add("nslookup");
+        commands.add(domain);
+        StringBuilder sb = new StringBuilder();
+        try {
+            ProcessBuilder builder = new ProcessBuilder();
+            builder.command(commands);
+            Process p = builder.start();
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line=br.readLine()) != null) {
+                sb.append(line+"\n");
+            }
+            br.close();
         } catch (Exception e) {
             return e.toString();
         }
