@@ -42,16 +42,15 @@ public class CSRFController {
     @GetMapping("1")
     public String addUser(User newUser, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        if (user != null && newUser != null) {
+        if (user != null) {
             userMapper.addUser(newUser);
             return "New user id: " + newUser.getId().toString();
         }
-        return "非法请求";
+        return "请登录";
     }
 
     /**
      * 修复CSRF漏洞，增加CSRF Token校验
-     * @throws IOException
      */
     @ApiOperation("修复CSRF漏洞")
     @GetMapping("safe")
@@ -60,17 +59,36 @@ public class CSRFController {
         String csrfSessionToken = (String) request.getSession().getAttribute("csrftoken");
         String csrfFormToken = request.getParameter("_csrf");
 
+        if (user == null) {
+            return "请登录";
+        }
+
         if (csrfSessionToken == null) {
             csrfSessionToken = CSRFUtil.generateToken();
             request.getSession().setAttribute("csrftoken", csrfSessionToken);
             Cookie cookie = new Cookie("_csrf", csrfSessionToken);
             response.addCookie(cookie);
         } else {
-            if (csrfSessionToken.equals(csrfFormToken) && user != null && newUser != null) {
+            if (csrfSessionToken.equals(csrfFormToken)) {
                     userMapper.addUser(newUser);
                     return "New user id: " + newUser.getId().toString();
             }
         }
         return "非法请求";
+    }
+
+    /**
+     * 修复CSRF漏洞，通过filter校验CSRF Token
+     */
+    @ApiOperation("修复CSRF漏洞")
+    @GetMapping("safe2")
+    public String safeAddUser2(User newUser,  HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user != null) {
+            userMapper.addUser(newUser);
+            return "New user id: " + newUser.getId().toString();
+        } else {
+            return "请登录";
+        }
     }
 }
