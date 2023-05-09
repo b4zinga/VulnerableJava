@@ -12,4 +12,12 @@
     <select id="findUserByName2" resultType="com.example.vulnerablejava.entity.User">
         SELECT * FROM ${table} WHERE username=#{name};
     </select>
+
+    <select id="findAllUsers" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users;
+    </select>
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users(username, password) VALUES (#{username}, #{password});
+    </insert>
 </mapper>
