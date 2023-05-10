@@ -25,3 +25,28 @@
 | 阿里巴巴 Druid 未授权 | 1 | |
 
 误报数量 = 漏洞修复数量 + 误报案例数量
+
+## 漏洞详情
+
+漏洞源码主要在[controller](./src/main/java/com/example/vulnerablejava/controller/)目录下，详情可参考代码注释信息。
+
+## 漏洞验证方式
+
+执行 `mvn spring-boot:run` 或 `java -jar vulnerablejava.jar`运行项目，使用curl或burp进行验证即可，例如:
+
+![burp](./docs/imgs/burp.png)
+
+或直接访问 `http://127.0.0.1:8080/swagger-ui.html` ，如下:
+
+![swagger](./docs/imgs/swagger.png)
+
+选择其中漏洞进行测试，例如:
+
+![swagger](./docs/imgs/swagger2.png)
+
+## 注意
+
+0. 主要用于验证SAST产品常规漏洞准确性及覆盖面
+1. 默认使用内置sqlite数据库，打包后可直接运行
+2. 无前端项目，内置swagger辅助测试
+3. 漏洞详情、利用方式，主要在[controller](./src/main/java/com/example/vulnerablejava/controller/)文件注释中
