@@ -1,5 +1,7 @@
 package com.example.vulnerablejava.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -96,5 +98,25 @@ public class SSRFController {
         image.setName(name);
         image.setUrl("www.example.com");
         return HttpUtil.doGet(image.getUrl());
+    }
+
+    /**
+     * 误报案例，拼接GET请求参数导致数据流追踪错误，不可利用
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("6")
+    public String download6(String name) {
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("name", name);
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://www.example.com/");
+        sb.append("?");
+        for (Map.Entry<String, String> e : paramMap.entrySet()) {
+            sb.append(e.getKey());
+            sb.append("=");
+            sb.append(e.getValue());
+            sb.append("&");
+        }
+        return HttpUtil.doGet(sb.toString());
     }
 }
