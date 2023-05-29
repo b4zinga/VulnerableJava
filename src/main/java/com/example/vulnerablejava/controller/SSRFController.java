@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.vulnerablejava.entity.Image;
 import com.example.vulnerablejava.utils.HttpUtil;
@@ -118,5 +123,30 @@ public class SSRFController {
             sb.append("&");
         }
         return HttpUtil.doGet(sb.toString());
+    }
+
+    /**
+     * 存在SSRF漏洞，使用RestTemplate发起请求
+     */
+    @ApiOperation("存在SSRF漏洞")
+    @GetMapping("7")
+    public String download7(String url) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> entity = restTemplate.getForEntity(url, String.class);
+        return entity.getBody();
+    }
+
+    /**
+     * 误报案例，设置RestTemplate请求参数，不可利用
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("8")
+    public String download8(String body) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        HttpEntity<String> entity = new HttpEntity<>(body, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://www.example.com", entity, String.class);
+        return response.toString();
     }
 }
