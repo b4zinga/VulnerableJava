@@ -2,12 +2,15 @@ package com.example.vulnerablejava.entity;
 
 import java.io.Serializable;
 
+import com.example.vulnerablejava.annotation.ImageURL;
+
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class Image implements Serializable{
+    @ImageURL
     private String url;
     private String name;
 
