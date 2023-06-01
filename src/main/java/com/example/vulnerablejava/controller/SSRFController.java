@@ -3,6 +3,7 @@ package com.example.vulnerablejava.controller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -148,5 +149,42 @@ public class SSRFController {
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
         ResponseEntity<String> response = restTemplate.postForEntity("http://www.example.com", entity, String.class);
         return response.toString();
+    }
+
+    /**
+     * 特么的，人写的东西太灵活了，怎么可能通过固定的规则全覆盖！
+     */
+
+    /**
+     * 存在漏洞，存在白名单校验，但可被绕过
+     * curl "http://127.0.0.1:8080/ssrf/9?url=http://127.0.0.1:5000/a?id=https://www.example.com/"
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("9")
+    public String download9(Image image) {
+        String url = image.getUrl();
+        String[] whiteUrlList = new String[]{"https://www.example.com/"};
+        boolean flag = Stream.of(whiteUrlList).anyMatch(url::contains);
+        if (flag) {
+            return HttpUtil.doGet(image.getUrl());
+        } else {
+            return "参数不合法";
+        }
+    }
+
+    /**
+     * 修复漏洞，使用startsWith校验，不可利用
+     */
+    @ApiOperation("修复SSRF漏洞")
+    @GetMapping("10")
+    public String download10(Image image) {
+        String url = image.getUrl();
+        String[] whiteUrlList = new String[]{"https://www.example.com/"};
+        boolean flag = Stream.of(whiteUrlList).anyMatch(url::startsWith);
+        if (flag) {
+            return HttpUtil.doGet(image.getUrl());
+        } else {
+            return "参数不合法";
+        }
     }
 }
