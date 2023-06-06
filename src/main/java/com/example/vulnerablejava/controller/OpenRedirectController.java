@@ -77,4 +77,14 @@ public class OpenRedirectController {
         response.setHeader("Location", url);
         response.setStatus(302);
     }
+
+    /**
+     * 误报案例，使用getRequestURI拼接，不可利用
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("4")
+    public void redirect4(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String url = "https://www.example.com" + request.getRequestURI();
+        response.sendRedirect(url);
+    }
 }
