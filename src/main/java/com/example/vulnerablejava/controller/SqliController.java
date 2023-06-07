@@ -131,6 +131,29 @@ public class SqliController {
     }
 
     /**
+     * 存在漏洞，mybatis like注入
+     * 当攻击者传入?name=xxx' or 1=1;即可查询全部用户
+     */
+    @ApiOperation("存在漏洞, Mybatis like注入")
+    @GetMapping("11")
+    public String searchUser(String name) {
+        return userMapper.searchUser(name).toString();
+    }
+
+    /**
+     * 修复Mybatis like注入，使用 like '%' || #{name} || '%';
+     *
+     * Mysql: select * from users where username like concat('%', #{name}, '%');
+     * Oracle、Sqlite: select * from users where username like '%' || #{name} || '%';
+     * SQLServer: select * from users where username like '%' + #{name} + '%';
+     */
+    @ApiOperation("修复Mybatis like注入")
+    @GetMapping("12")
+    public String safeSearchUser(String name) {
+        return userMapper.safeSearchUser(name).toString();
+    }
+
+    /**
      * 存在JPA SQL注入漏洞，使用createNativeQuery执行原生SQL拼接导致
      * 当攻击者传入 ?name='or+1=1;时，即可查询所有数据
      */

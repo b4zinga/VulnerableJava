@@ -20,4 +20,12 @@
     <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users(username, password) VALUES (#{username}, #{password});
     </insert>
+
+    <select id="searchUser" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users WHERE username like '%${name}%';
+    </select>
+
+    <select id="safeSearchUser" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users WHERE username like '%' || #{name} || '%';
+    </select>
 </mapper>

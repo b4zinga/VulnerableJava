@@ -12,4 +12,6 @@ public interface UserMapper {
     User findUserByName2(String name);
     List<User> findAllUsers();
     int addUser(User user);
+    List<User> searchUser(String name);
+    List<User> safeSearchUser(String name);
 }
