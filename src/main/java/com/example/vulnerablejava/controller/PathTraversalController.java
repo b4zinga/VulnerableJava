@@ -67,4 +67,17 @@ public class PathTraversalController {
     public String read3(@PathVariable String fileName) {
         return FileUtil.readFile(fileName);
     }
+
+    /**
+     * 误报案例，替换敏感字符，不可利用
+     */
+    @ApiOperation("误报案例")
+    @GetMapping("4")
+    public String read4(String fileName) {
+        System.out.println(fileName);
+        fileName = fileName.replaceAll("/", "%2f");
+        fileName = fileName.replaceAll("\\\\", "%2f");
+        System.out.println(fileName);
+        return FileUtil.readFile(fileName);
+    }
 }
