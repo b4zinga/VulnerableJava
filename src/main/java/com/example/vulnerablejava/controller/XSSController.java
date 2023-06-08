@@ -26,7 +26,7 @@ public class XSSController {
     /**
      * 修复XSS漏洞，使用htmlEscape进行实体编码再输出
      */
-    @ApiOperation("修复XSS漏洞")
+    @ApiOperation("修复XSS漏洞, 使用htmlEscape进行实体编码再输出")
     @GetMapping("safe")
     public String safeEcho(String name) {
         name = HtmlUtils.htmlEscape(name);

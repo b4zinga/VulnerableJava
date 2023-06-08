@@ -37,7 +37,7 @@ public class SSRFController {
     /**
      * 修复SSRF漏洞，通过URL白名单进行限制
      */
-    @ApiOperation("修复SSRF漏洞")
+    @ApiOperation("修复SSRF漏洞, 通过URL白名单进行限制")
     @GetMapping("safe")
     public String safeDownload(String url) {
         if (checkParameter(url)) {
@@ -60,7 +60,7 @@ public class SSRFController {
     /**
      * 误报案例，数据流追踪错误导致误报
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, builder用法导致数据流追踪错误")
     @GetMapping("2")
     public String download2(String name) {
         Image image = Image.builder().name(name).url("http://www.example.com").build();
@@ -71,7 +71,7 @@ public class SSRFController {
      * 误报案例，URL为常量拼接，不可利用
      */
     private String HOST = "http://www.example.com/";
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 常量域名拼接变量参数")
     @GetMapping("3")
     public String download3(String name) {
         StringBuilder url = new StringBuilder();
@@ -83,7 +83,7 @@ public class SSRFController {
     /**
      * 误报案例，URL已使用正则校验，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, URL已使用正则校验")
     @GetMapping("4")
     public String download4(String url) {
         String regex = "^https://www\\.example\\.com/.*";
@@ -97,7 +97,7 @@ public class SSRFController {
     /**
      * 误报案例，数据流追踪错误导致误报
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 使用setXXX导致数据流追踪错误")
     @GetMapping("5")
     public String download5(String name) {
         Image image = new Image();
@@ -109,7 +109,7 @@ public class SSRFController {
     /**
      * 误报案例，拼接GET请求参数导致数据流追踪错误，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 使用StringBuilder拼接GET请求参数导致数据流追踪错误")
     @GetMapping("6")
     public String download6(String name) {
         Map<String, String> paramMap = new HashMap<>();
@@ -129,7 +129,7 @@ public class SSRFController {
     /**
      * 存在SSRF漏洞，使用RestTemplate发起请求
      */
-    @ApiOperation("存在SSRF漏洞")
+    @ApiOperation("存在SSRF漏洞, 使用RestTemplate发起请求")
     @GetMapping("7")
     public String download7(String url) {
         RestTemplate restTemplate = new RestTemplate();
@@ -140,7 +140,7 @@ public class SSRFController {
     /**
      * 误报案例，设置RestTemplate请求参数，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 设置RestTemplate请求参数")
     @GetMapping("8")
     public String download8(String body) {
         RestTemplate restTemplate = new RestTemplate();
@@ -159,7 +159,7 @@ public class SSRFController {
      * 存在漏洞，存在白名单校验，但可被绕过
      * curl "http://127.0.0.1:8080/ssrf/9?url=http://127.0.0.1:5000/a?id=https://www.example.com/"
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 存在白名单校验（但可被绕过）")
     @GetMapping("9")
     public String download9(Image image) {
         String url = image.getUrl();
@@ -175,7 +175,7 @@ public class SSRFController {
     /**
      * 修复漏洞，使用startsWith校验，不可利用
      */
-    @ApiOperation("修复SSRF漏洞")
+    @ApiOperation("修复SSRF漏洞, 使用startsWith校验")
     @GetMapping("10")
     public String download10(Image image) {
         String url = image.getUrl();

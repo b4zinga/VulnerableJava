@@ -32,7 +32,7 @@ public class SpelController {
     /**
      * 修复SPEL注入漏洞，使用SimpleEvaluationContext防止SPEL注入
      */
-    @ApiOperation("修复SPEL注入漏洞")
+    @ApiOperation("修复SPEL注入漏洞, 使用SimpleEvaluationContext")
     @GetMapping("safe")
     public String safeSpel(String name) {
         ExpressionParser parser = new SpelExpressionParser();
@@ -44,7 +44,7 @@ public class SpelController {
     /**
      * 误报案例，表达式不可控
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 表达式不可控")
     @GetMapping("2")
     public String spel2(String name) {
        EvaluationContext context = new StandardEvaluationContext();

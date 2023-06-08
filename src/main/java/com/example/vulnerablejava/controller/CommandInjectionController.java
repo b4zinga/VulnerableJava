@@ -33,7 +33,7 @@ public class CommandInjectionController {
     /**
      * 修复命令注入漏洞，通过正则校验限制参数拼接
      */
-    @ApiOperation("修复命令注入漏洞")
+    @ApiOperation("修复命令注入漏洞, 使用正则校验参数")
     @GetMapping("safe")
     public String safeQuery(String domain) {
         if (checkParameter(domain)) {
@@ -51,7 +51,7 @@ public class CommandInjectionController {
     /**
      * 误报案例, 未调用shell执行命令，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 未调用shell, 不可利用")
     @GetMapping("2")
     public String query2(String domain) {
         StringBuilder sb = new StringBuilder();
@@ -71,7 +71,7 @@ public class CommandInjectionController {
     /**
      * 误报案例，未调用shell执行命令，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 未调用shell, 不可利用")
     @GetMapping("3")
     public String query3(String domain) {
         List<String> commands = new ArrayList<>();

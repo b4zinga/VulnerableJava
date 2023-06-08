@@ -45,7 +45,7 @@ public class XXEController {
     /**
      * 修复XXE漏洞，禁止解析外部实体
      */
-    @ApiOperation("修复XXE漏洞")
+    @ApiOperation("修复XXE漏洞, 禁止解析外部实体")
     @GetMapping("safe")
     public String safeParse(String xml) {
         StringBuilder sb = new StringBuilder();

@@ -29,7 +29,7 @@ public class PathTraversalController {
     /**
      * 修复目录穿越漏洞，过滤.. / \ 等目录穿越字符
      */
-    @ApiOperation("修复目录穿越漏洞")
+    @ApiOperation("修复目录穿越漏洞, 过滤.. / \\ 目录穿越字符")
     @GetMapping("safe")
     public String safeRead(String fileName) {
         String dataDir = System.getProperty("user.dir");
@@ -51,7 +51,7 @@ public class PathTraversalController {
     /**
      * 误报案例，获取文件名后拼接到指定目录下，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 获取文件名后拼接到指定目录下")
     @GetMapping("2")
     public String read2(String filePath) {
         String dataDir = System.getProperty("user.dir");
@@ -62,7 +62,7 @@ public class PathTraversalController {
     /**
      * 误报案例，@PathVariable 传参，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, @PathVariable 传参，不可利用")
     @GetMapping("3/{fileName}")
     public String read3(@PathVariable String fileName) {
         return FileUtil.readFile(fileName);
@@ -71,13 +71,11 @@ public class PathTraversalController {
     /**
      * 误报案例，替换敏感字符，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 替换敏感字符")
     @GetMapping("4")
     public String read4(String fileName) {
-        System.out.println(fileName);
         fileName = fileName.replaceAll("/", "%2f");
         fileName = fileName.replaceAll("\\\\", "%2f");
-        System.out.println(fileName);
         return FileUtil.readFile(fileName);
     }
 }

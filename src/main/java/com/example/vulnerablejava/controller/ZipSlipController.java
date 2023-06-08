@@ -59,7 +59,7 @@ public class ZipSlipController {
     /**
      * 修复Zip Slip漏洞，过滤压缩包内文件名包含..的文件
      */
-    @ApiOperation("修复Zip Slip漏洞")
+    @ApiOperation("修复Zip Slip漏洞, 过滤压缩包内文件名包含..的文件")
     @PostMapping("safe")
     public String safeUnZip(MultipartFile file) {
         StringBuilder sb = new StringBuilder();

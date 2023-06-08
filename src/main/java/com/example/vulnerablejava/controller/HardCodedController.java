@@ -37,7 +37,7 @@ public class HardCodedController {
     /**
      * 误报案例，从配置类获取连接信息，不存在硬编码漏洞
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 从配置类获取连接信息")
     @GetMapping("2")
     public void testConnection2() {
         String jdbcParam = "?useUnicode=true&characterEncoding=utf8&failOverReadOnly=false&useSSL=false";
@@ -54,7 +54,7 @@ public class HardCodedController {
     /**
      * 误报案例，自定义数据库连接函数，不存在硬编码漏洞
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 自定义数据库连接函数, 不存在漏洞")
     public void connectionDB(String host, String port, String database, String username, String password) {
         String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
         try {

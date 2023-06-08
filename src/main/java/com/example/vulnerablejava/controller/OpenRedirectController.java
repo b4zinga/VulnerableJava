@@ -32,7 +32,7 @@ public class OpenRedirectController {
     /**
      * 修复重定向漏洞，通过host白名单进行限制
      */
-    @ApiOperation("修复重定向漏洞")
+    @ApiOperation("修复重定向漏洞, 通过host白名单进行限制")
     @GetMapping("safe")
     public void safeRedirect(String url, HttpServletResponse response) throws IOException {
         if (checkParameter(url)) {
@@ -61,7 +61,7 @@ public class OpenRedirectController {
     /**
      * 误报案例，从host取值，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 参数从Header取值, 不可利用")
     @GetMapping("2")
     public void redirect2(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String url = request.getHeader("redirect");
@@ -71,7 +71,7 @@ public class OpenRedirectController {
     /**
      * 存在重定向漏洞，使用setHeader进行重定向
      */
-    @ApiOperation("存在重定向漏洞")
+    @ApiOperation("存在重定向漏洞, 使用setHeader进行重定向")
     @GetMapping("3")
     public void redirect3(String url, HttpServletResponse response) {
         response.setHeader("Location", url);
@@ -81,7 +81,7 @@ public class OpenRedirectController {
     /**
      * 误报案例，使用getRequestURI拼接，不可利用
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 使用getRequestURI拼接")
     @GetMapping("4")
     public void redirect4(HttpServletRequest request, HttpServletResponse response) throws IOException{
         String url = "https://www.example.com" + request.getRequestURI();

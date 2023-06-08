@@ -79,7 +79,7 @@ public class SqliController {
     /**
      * 修复SQL注入漏洞，使用预编译
      */
-    @ApiOperation("修复SQL注入漏洞")
+    @ApiOperation("修复SQL注入漏洞, 使用PreparedStatement预编译")
     @GetMapping("safe")
     public String safeGetUser(String name) {
         StringBuilder sb = new StringBuilder();
@@ -115,7 +115,7 @@ public class SqliController {
     /**
      * 修复MyBatis SQL注入漏洞，使用#{}代替${}进行传参
      */
-    @ApiOperation("修复MyBatis SQL注入漏洞")
+    @ApiOperation("修复MyBatis SQL注入漏洞, 使用#{}代替${}进行传参")
     @GetMapping("safe2")
     public String safeGetUser2(String name) {
         return userMapper.findUserByNameSafety(name).toString();
@@ -124,7 +124,7 @@ public class SqliController {
     /**
      * 误报案例，mapper中使用了`$`，但实际是从配置文件中取值，不可利用
      */
-    @ApiOperation("误报案例MyBatis")
+    @ApiOperation("误报案例MyBatis, mapper中使用了`$`, 但非外部传入")
     @GetMapping("3")
     public String getUser3(String name) {
         return userMapper.findUserByName2(name).toString();
@@ -178,7 +178,7 @@ public class SqliController {
     /**
      * 修复JPA SQL注入漏洞，使用setParameter和?占位符进行预编译
      */
-    @ApiOperation("修复JPA SQL注入漏洞")
+    @ApiOperation("修复JPA SQL注入漏洞, 使用setParameter和?占位符进行预编译")
     @GetMapping("5")
     public String getUser5(String name) {
         String sql = "SELECT * FROM users WHERE username=?";
@@ -200,7 +200,7 @@ public class SqliController {
     /**
      * 修复JPA SQL注入漏洞，使用JPA原生SQL和?1占位符进行预编译
      */
-    @ApiOperation("修复JPA SQL注入漏洞")
+    @ApiOperation("修复JPA SQL注入漏洞, 使用JPA原生SQL和?1占位符进行预编译")
     @GetMapping("6")
     public String getUser6(String name) {
         return userDao.findByName(name).toString();
@@ -209,7 +209,7 @@ public class SqliController {
     /**
      * 修复JPA SQL注入漏洞，使用JPA JPQL和?1占位符进行预编译
      */
-    @ApiOperation("修复JPA SQL注入漏洞")
+    @ApiOperation("修复JPA SQL注入漏洞, 使用JPA JPQL和?1占位符进行预编译")
     @GetMapping("7")
     public String getUser7(String name) {
         return userDao.findByName2(name).toString();
@@ -218,7 +218,7 @@ public class SqliController {
     /**
      * 修复JPA SQL注入漏洞，使用JPA JPQL和@Param代替占位符进行预编译
      */
-    @ApiOperation("修复JPA SQL注入漏洞")
+    @ApiOperation("修复JPA SQL注入漏洞, 使用JPA JPQL和@Param代替占位符进行预编译")
     @GetMapping("8")
     public String getUser8(String name) {
         return userDao.findByName3(name).toString();
@@ -245,7 +245,7 @@ public class SqliController {
     /**
      * 修复JdbcTemplate SQL注入漏洞，使用预编译
      */
-    @ApiOperation("修复JdbcTemplate SQL注入漏洞")
+    @ApiOperation("修复JdbcTemplate SQL注入漏洞, 使用预编译")
     @GetMapping("10")
     public String getUser10(String name) {
         String sql = "SELECT * FROM users WHERE username=:name";

@@ -30,7 +30,7 @@ public class OgnlController {
     /**
      * 误报案例，表达式不可控
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("误报案例, 表达式不可控")
     @GetMapping("2")
     public String ognl2(String name) throws OgnlException {
         Image image = new Image(name, "www.example.com");

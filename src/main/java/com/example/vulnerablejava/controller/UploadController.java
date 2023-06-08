@@ -45,7 +45,7 @@ public class UploadController {
     /**
      * 修复任意文件上传漏洞，使用白名单对文件后缀名进行校验，并重命名文件
      */
-    @ApiOperation("修复任意文件上传漏洞")
+    @ApiOperation("修复任意文件上传漏洞, 使用白名单对文件后缀名进行校验, 并重命名文件")
     @PostMapping("safe")
     public String safeUpload(MultipartFile file) throws IllegalStateException, IOException {
         String fileName = file.getOriginalFilename();
@@ -63,7 +63,7 @@ public class UploadController {
     /**
      * 修复任意文件上传漏洞，使用白名单对文件后缀名进行校验，创建临时文件
      */
-    @ApiOperation("修复任意文件上传漏洞")
+    @ApiOperation("修复任意文件上传漏洞, 使用白名单对文件后缀名进行校验, 并创建临时文件")
     @PostMapping("safe2")
     public String safeUpload2(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();

@@ -63,7 +63,7 @@ public class DeserializeController {
     /**
      * 修复反序列化漏洞
      */
-    @ApiOperation("修复反序列化漏洞")
+    @ApiOperation("修复反序列化漏洞, 使用readUnshared")
     @GetMapping("safe")
     public String safeDeserialize(String base64) {
         Object o;
@@ -81,10 +81,10 @@ public class DeserializeController {
     }
 
     /**
-     * 误报案例，commons-io包中的ValidatingObjectInputStream类的accept/reject方法实现了
+     * 修复反序列化漏洞，commons-io包中的ValidatingObjectInputStream类的accept/reject方法实现了
      * 反序列化类白/黑名单控制, 可用于修复反序列化漏洞，修复时建议使用白名单，避免被绕过
      */
-    @ApiOperation("误报案例")
+    @ApiOperation("修复反序列化漏洞, 设置反序列化类白/黑名单")
     @GetMapping("2")
     public String deserialize2(String base64) {
         Object o;

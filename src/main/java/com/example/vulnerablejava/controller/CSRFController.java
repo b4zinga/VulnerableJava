@@ -52,7 +52,7 @@ public class CSRFController {
     /**
      * 修复CSRF漏洞，增加CSRF Token校验
      */
-    @ApiOperation("修复CSRF漏洞")
+    @ApiOperation("修复CSRF漏洞, 增加CSRF Token校验")
     @GetMapping("safe")
     public String safeAddUser(User newUser, HttpServletRequest request, HttpServletResponse response) throws IOException {
         User user = (User) request.getSession().getAttribute("user");
@@ -80,7 +80,7 @@ public class CSRFController {
     /**
      * 修复CSRF漏洞，通过filter校验CSRF Token
      */
-    @ApiOperation("修复CSRF漏洞")
+    @ApiOperation("修复CSRF漏洞, 通过filter统一校验CSRF Token")
     @GetMapping("safe2")
     public String safeAddUser2(User newUser,  HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
