@@ -32,4 +32,15 @@
     <select id="sortUser" resultType="com.example.vulnerablejava.entity.User">
         SELECT * FROM users order by ${order};
     </select>
+
+    <select id="findUserByNameList" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users WHERE username IN (${names});
+    </select>
+
+    <select id="safeFindUserByNameList" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users WHERE username IN
+        <foreach collection="list" item="name" index="index" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
 </mapper>

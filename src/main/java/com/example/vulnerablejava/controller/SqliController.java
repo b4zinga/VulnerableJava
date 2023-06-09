@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vulnerablejava.dao.UserDao;
@@ -176,6 +177,25 @@ public class SqliController {
         } else {
             return "参数不合法";
         }
+    }
+
+    /**
+     * 存在漏洞，MyBatis in 注入
+     * 攻击者传入 ?names='') union select * from users;即可查询所有用户
+     */
+    @ApiOperation("存在漏洞, MyBatis in注入")
+    @GetMapping("15")
+    public String findUserByNameList(@RequestParam String names) {
+        return userMapper.findUserByNameList(names).toString();
+    }
+
+    /**
+     * 修复MyBatis in注入, mapper中使用foreach
+     */
+    @ApiOperation("修复MyBatis in注入, mapper中使用foreach")
+    @GetMapping("16")
+    public String safeFindUserByNameList(@RequestParam List<String> names) {
+        return userMapper.safeFindUserByNameList(names).toString();
     }
 
     /**

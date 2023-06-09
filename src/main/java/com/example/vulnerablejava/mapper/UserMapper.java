@@ -19,4 +19,8 @@ public interface UserMapper {
 
     // Mybatis order by注入
     List<User> sortUser(String order);
+
+    // Mybatis in 注入
+    List<User> findUserByNameList(String names);
+    List<User> safeFindUserByNameList(List<String> names);
 }
