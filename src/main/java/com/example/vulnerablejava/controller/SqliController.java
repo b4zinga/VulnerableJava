@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vulnerablejava.dao.UserDao;
+import com.example.vulnerablejava.entity.User;
 import com.example.vulnerablejava.mapper.UserMapper;
+import com.example.vulnerablejava.utils.MybatisOrderByUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -151,6 +153,29 @@ public class SqliController {
     @GetMapping("12")
     public String safeSearchUser(String name) {
         return userMapper.safeSearchUser(name).toString();
+    }
+
+    /**
+     * 存在漏洞，Mybatis order by注入
+     * 攻击者传入 ?order=id limit 1 即可注入sql语句
+     */
+    @ApiOperation("存在漏洞, Mybatis order by注入")
+    @GetMapping("13")
+    public String sortUser(String order) {
+        return userMapper.sortUser(order).toString();
+    }
+
+    /**
+     * 修复Mybatis order by注入，校验传入order的合法性
+     */
+    @ApiOperation("修复Mybatis order by注入, 对传入参数进行验证")
+    @GetMapping("14")
+    public String safeSortUser(String order) {
+        if (MybatisOrderByUtils.isSafeOrder(order, User.class)) { //
+            return userMapper.sortUser(order).toString();
+        } else {
+            return "参数不合法";
+        }
     }
 
     /**

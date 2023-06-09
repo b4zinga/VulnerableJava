@@ -28,4 +28,8 @@
     <select id="safeSearchUser" resultType="com.example.vulnerablejava.entity.User">
         SELECT * FROM users WHERE username like '%' || #{name} || '%';
     </select>
+
+    <select id="sortUser" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users order by ${order};
+    </select>
 </mapper>

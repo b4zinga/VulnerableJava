@@ -12,6 +12,11 @@ public interface UserMapper {
     User findUserByName2(String name);
     List<User> findAllUsers();
     int addUser(User user);
+
+    // Mybatis like 注入
     List<User> searchUser(String name);
     List<User> safeSearchUser(String name);
+
+    // Mybatis order by注入
+    List<User> sortUser(String order);
 }
