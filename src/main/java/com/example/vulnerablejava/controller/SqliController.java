@@ -134,71 +134,6 @@ public class SqliController {
     }
 
     /**
-     * 存在漏洞，mybatis like注入
-     * 当攻击者传入?name=xxx' or 1=1;即可查询全部用户
-     */
-    @ApiOperation("存在漏洞, Mybatis like注入")
-    @GetMapping("11")
-    public String searchUser(String name) {
-        return userMapper.searchUser(name).toString();
-    }
-
-    /**
-     * 修复Mybatis like注入，使用 like '%' || #{name} || '%';
-     *
-     * Mysql: select * from users where username like concat('%', #{name}, '%');
-     * Oracle、Sqlite: select * from users where username like '%' || #{name} || '%';
-     * SQLServer: select * from users where username like '%' + #{name} + '%';
-     */
-    @ApiOperation("修复Mybatis like注入")
-    @GetMapping("12")
-    public String safeSearchUser(String name) {
-        return userMapper.safeSearchUser(name).toString();
-    }
-
-    /**
-     * 存在漏洞，Mybatis order by注入
-     * 攻击者传入 ?order=id limit 1 即可注入sql语句
-     */
-    @ApiOperation("存在漏洞, Mybatis order by注入")
-    @GetMapping("13")
-    public String sortUser(String order) {
-        return userMapper.sortUser(order).toString();
-    }
-
-    /**
-     * 修复Mybatis order by注入，校验传入order的合法性
-     */
-    @ApiOperation("修复Mybatis order by注入, 对传入参数进行验证")
-    @GetMapping("14")
-    public String safeSortUser(String order) {
-        if (MybatisOrderByUtils.isSafeOrder(order, User.class)) { //
-            return userMapper.sortUser(order).toString();
-        } else {
-            return "参数不合法";
-        }
-    }
-
-    /**
-     * 存在漏洞，MyBatis in 注入
-     * 攻击者传入 ?names='') union select * from users;即可查询所有用户
-     */
-    @ApiOperation("存在漏洞, MyBatis in注入")
-    @GetMapping("15")
-    public String findUserByNameList(@RequestParam String names) {
-        return userMapper.findUserByNameList(names).toString();
-    }
-
-    /**
-     * 修复MyBatis in注入, mapper中使用foreach
-     */
-    @ApiOperation("修复MyBatis in注入, mapper中使用foreach")
-    @GetMapping("16")
-    public String safeFindUserByNameList(@RequestParam List<String> names) {
-        return userMapper.safeFindUserByNameList(names).toString();
-    }
-
-    /**
      * 存在JPA SQL注入漏洞，使用createNativeQuery执行原生SQL拼接导致
      * 当攻击者传入 ?name='or+1=1;时，即可查询所有数据
      */
@@ -305,5 +240,70 @@ public class SqliController {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 存在漏洞，mybatis like注入
+     * 当攻击者传入?name=xxx' or 1=1;即可查询全部用户
+     */
+    @ApiOperation("存在漏洞, Mybatis like注入")
+    @GetMapping("11")
+    public String searchUser(String name) {
+        return userMapper.searchUser(name).toString();
+    }
+
+    /**
+     * 修复Mybatis like注入，使用 like '%' || #{name} || '%';
+     *
+     * Mysql: select * from users where username like concat('%', #{name}, '%');
+     * Oracle、Sqlite: select * from users where username like '%' || #{name} || '%';
+     * SQLServer: select * from users where username like '%' + #{name} + '%';
+     */
+    @ApiOperation("修复Mybatis like注入")
+    @GetMapping("12")
+    public String safeSearchUser(String name) {
+        return userMapper.safeSearchUser(name).toString();
+    }
+
+    /**
+     * 存在漏洞，Mybatis order by注入
+     * 攻击者传入 ?order=id limit 1 即可注入sql语句
+     */
+    @ApiOperation("存在漏洞, Mybatis order by注入")
+    @GetMapping("13")
+    public String sortUser(String order) {
+        return userMapper.sortUser(order).toString();
+    }
+
+    /**
+     * 修复Mybatis order by注入，校验传入order的合法性
+     */
+    @ApiOperation("修复Mybatis order by注入, 对传入参数进行验证")
+    @GetMapping("14")
+    public String safeSortUser(String order) {
+        if (MybatisOrderByUtils.isSafeOrder(order, User.class)) { //
+            return userMapper.sortUser(order).toString();
+        } else {
+            return "参数不合法";
+        }
+    }
+
+    /**
+     * 存在漏洞，MyBatis in 注入
+     * 攻击者传入 ?names='') union select * from users;即可查询所有用户
+     */
+    @ApiOperation("存在漏洞, MyBatis in注入")
+    @GetMapping("15")
+    public String findUserByNameList(@RequestParam String names) {
+        return userMapper.findUserByNameList(names).toString();
+    }
+
+    /**
+     * 修复MyBatis in注入, mapper中使用foreach
+     */
+    @ApiOperation("修复MyBatis in注入, mapper中使用foreach")
+    @GetMapping("16")
+    public String safeFindUserByNameList(@RequestParam List<String> names) {
+        return userMapper.safeFindUserByNameList(names).toString();
     }
 }
