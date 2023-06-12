@@ -1,5 +1,6 @@
 package com.example.vulnerablejava.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -19,6 +20,9 @@ import com.example.vulnerablejava.utils.HttpUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 @Api(tags = "SSRF漏洞")
 @RestController
@@ -186,5 +190,22 @@ public class SSRFController {
         } else {
             return "参数不合法";
         }
+    }
+
+    /**
+     * 存在漏洞，使用okhttp3发起请求
+     */
+    @ApiOperation("存在漏洞, 使用okhttp3发起请求")
+    @GetMapping("11")
+    public String download11(String url) {
+        String result = "";
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().get().url(url).build();
+        try (Response response = client.newCall(request).execute()) {
+            result = response.body().string();
+        } catch (IOException e) {
+            result = e.toString();
+        }
+        return result;
     }
 }
