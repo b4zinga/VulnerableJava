@@ -17,13 +17,14 @@ import io.swagger.annotations.ApiOperation;
 public class ELController {
 
     /**
-     * 存在EL注入漏洞，BeanValidation RCE，
+     * 存在EL注入漏洞，BeanValidation RCE，ImageURL validation存在漏洞，ImageName validation修复漏洞
      *
      * 攻击者传入?url=${''.getClass().forName('java.lang.Runtime').getMethod('exec',''.getClass()).invoke(''.getClass().forName('java.lang.Runtime').getMethod('getRuntime').invoke(null),'calc')}
      * 即可执行系统命令
      *
      * 或 ?url=${''.getClass().forName("javax.script.ScriptEngineManager").newInstance().getEngineByName("JavaScript").eval("java.lang.Runtime.getRuntime().exec('calc')")}
      *
+     * 参考: https://securitylab.github.com/research/bean-validation-RCE/
      */
     @ApiOperation("存在漏洞")
     @GetMapping("1")
@@ -31,4 +32,22 @@ public class ELController {
         String url = image.getUrl();
         return "The image url is " + url;
     }
+
+    /**
+     * 修复漏洞，使用参数化消息模板。参考 ImageNameValidator.java
+     */
+    @ApiOperation("修复漏洞, name使用参数化消息模板")
+    @GetMapping("2")
+    public String getImage2(@Valid Image image) {
+        String name = image.getName();
+        return "The image name is " + name;
+    }
+
+    /**
+     * 修复漏洞，通过配置禁止解析EL表达式，参考 ValidatorConfig.java
+     */
+
+     /**
+      * 修复漏洞，升级hibernate-validator版本，或替换为 org.apache.bval:bval-jsr
+      */
 }
