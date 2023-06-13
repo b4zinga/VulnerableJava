@@ -211,12 +211,22 @@ public class SSRFController {
     }
 
     /**
-     * 不存在漏洞，使用join拼接URL参数
+     * 误报案例，使用join拼接URL参数
      */
     @ApiOperation("误报案例, 使用join拼接URL参数")
     @GetMapping("12")
     public String download12(String name) {
         String url = StringUtils.join("https://www.example.com/", "?name=", name);
         return HttpUtil.doGet(url);
+    }
+
+    /**
+     * 误报案例，直接使用构造函数导致数据流追踪错误
+     */
+    @ApiOperation("误报案例, 直接使用构造函数导致数据流追踪错误")
+    @GetMapping("13")
+    public String download13(String name) {
+        Image image = new Image(name, "https://www.example.com");
+        return HttpUtil.doGet(image.getUrl());
     }
 }
