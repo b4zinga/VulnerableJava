@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -207,5 +208,15 @@ public class SSRFController {
             result = e.toString();
         }
         return result;
+    }
+
+    /**
+     * 不存在漏洞，使用join拼接URL参数
+     */
+    @ApiOperation("误报案例, 使用join拼接URL参数")
+    @GetMapping("12")
+    public String download12(String name) {
+        String url = StringUtils.join("https://www.example.com/", "?name=", name);
+        return HttpUtil.doGet(url);
     }
 }
