@@ -47,7 +47,7 @@ public class ELController {
      * 修复漏洞，通过配置禁止解析EL表达式，参考 ValidatorConfig.java
      */
 
-     /**
-      * 修复漏洞，升级hibernate-validator版本，或替换为 org.apache.bval:bval-jsr
-      */
+    /**
+     * 修复漏洞，升级hibernate-validator到无漏洞版本，或替换为 org.apache.bval:bval-jsr
+    */
 }

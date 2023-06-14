@@ -26,4 +26,8 @@ public class FastjsonController {
         Object parse = JSON.parse(json);
         return parse.toString();
     }
+
+    /**
+     * 修复漏洞，升级fastjson到最新版本
+     */
 }
