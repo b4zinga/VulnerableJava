@@ -53,4 +53,24 @@ public class SpelController {
        Expression expression = parser.parseExpression("'Hi,'+#name");
        return expression.getValue(context).toString();
     }
+
+    /**
+     * 误报案例，未调用getValue()，不可利用
+     */
+    @ApiOperation("误报案例, 未调用getValue()")
+    @GetMapping("3")
+    public String spel3(String name) {
+        SpelExpressionParser SPEL_EXPRESSION_PARSER = new SpelExpressionParser();
+        return SPEL_EXPRESSION_PARSER.parseRaw(name).toString();
+    }
+
+    /**
+     * 存在SPEL注入漏洞，攻击者传入 ?name=T(java.lang.Runtime).getRuntime().exec('whoami') 即可执行whoami命令
+     */
+    @ApiOperation("存在漏洞, 使用parseRaw().getValue()")
+    @GetMapping("4")
+    public String spel4(String name) {
+        SpelExpressionParser SPEL_EXPRESSION_PARSER = new SpelExpressionParser();
+        return SPEL_EXPRESSION_PARSER.parseRaw(name).getValue().toString();
+    }
 }
