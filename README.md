@@ -21,6 +21,7 @@
 | XXE | 1 | 1 |
 | Zip Slip | 1 | 1 |
 | 反序列化 | 1 | 2 |
+| 文件包含 | 2 | |
 | Spring Actuator 未授权 | 1 | |
 | Swagger-ui未授权 | 1 | |
 | 阿里巴巴 Druid 未授权 | 1 | |
