@@ -3,6 +3,7 @@ package com.example.vulnerablejava.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
 import io.swagger.annotations.Api;
@@ -31,5 +32,16 @@ public class XSSController {
     public String safeEcho(String name) {
         name = HtmlUtils.htmlEscape(name);
         return "Hello " + name;
+    }
+
+    /**
+     * 在jsp中直接回显，攻击者诱骗用户点击如下链接，即可导致用户被攻击
+     * https://www.example.com/xss/2?name=<svg/onload=alert(1)>
+     */
+    @ApiOperation("存在漏洞")
+    @GetMapping("2")
+    public ModelAndView echo2() {
+        ModelAndView mv = new ModelAndView("/xss");
+        return mv;
     }
 }
