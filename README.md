@@ -26,6 +26,7 @@
 | Swagger-ui未授权 | 1 | |
 | 阿里巴巴 Druid 未授权 | 1 | |
 | Fastjson RCE | 1 | 1 |
+| Shiro | 1 | |
 
 误报数量 = 漏洞修复数量 + 误报案例数量
 
