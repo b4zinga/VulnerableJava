@@ -32,6 +32,11 @@ public class SSRFController {
 
     /**
      * 存在SSRF漏洞，攻击者传入 ?url=http://10.10.10.1/admin 即可访问内网
+     *
+     * 或使用其他协议进行利用，如
+     *      ?url=file:///etc/passwd 或 ?url=file:///c:/windows/win.ini 读取文件
+     *      ?url=netdoc:///c:/1.txt 读文件
+     *      ?url=ftp://admin:123456@192.168.154.129:21/1.txt 连接ftp
      */
     @ApiOperation("存在SSRF漏洞")
     @GetMapping("1")
