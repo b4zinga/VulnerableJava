@@ -13,6 +13,7 @@
 | SPEL注入 | 2 | 3 |
 | OGNL注入 | 1 | 1 |
 | EL注入 | 1 | 1 |
+| Freemarker注入 | 1 | 1 |
 | SQL注入 | 7 | 11 |
 | SSRF | 4 | 10 |
 | CSRF | 1 | 2 |
