@@ -16,7 +16,7 @@
 | Freemarker注入 | 1 | 1 |
 | Thymeleaf注入 | 2 | 1 |
 | Velocity注入 | 1 | |
-| Groovy注入 | 1 | |
+| Groovy注入 | 4 | |
 | SQL注入 | 7 | 11 |
 | SSRF | 4 | 10 |
 | CSRF | 1 | 2 |
