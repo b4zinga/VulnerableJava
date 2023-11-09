@@ -56,10 +56,10 @@ public class CommandInjectionController {
     public String query2(String domain) {
         StringBuilder sb = new StringBuilder();
         try {
-            Process p = Runtime.getRuntime().exec(new String[]{"nslookup", domain});
+            Process p = Runtime.getRuntime().exec(new String[] { "nslookup", domain });
             BufferedReader bf = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
-            while((line = bf.readLine()) != null){
+            while ((line = bf.readLine()) != null) {
                 sb.append(line + "\n");
             }
         } catch (Exception e) {
@@ -84,8 +84,8 @@ public class CommandInjectionController {
             Process p = builder.start();
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
-            while ((line=br.readLine()) != null) {
-                sb.append(line+"\n");
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
             }
             br.close();
         } catch (Exception e) {

@@ -1,8 +1,10 @@
 package com.example.vulnerablejava.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,17 +43,20 @@ public class OpenRedirectController {
     }
 
     public static boolean checkParameter(String url) {
-        String[] whiteHostList = {".example.com", ".example2.com"}; // host白名单, 以.开头
+        String[] whiteHostList = { ".example.com", ".example2.com" }; // host白名单, 以.开头
         String host = "";
         try {
-            url = url.replaceAll("[\\\\#]","/");
+            url = url.replaceAll("[\\\\#]", "/");
             host = new URL(url).getHost();
+            host = URLEncoder.encode(host, "UTF-8");
+            System.out.println(host);
         } catch (MalformedURLException e) {
-            // log.info(e);
-            e.printStackTrace();
+            return false;
+        } catch (UnsupportedEncodingException e) {
+            return false;
         }
         for (String white : whiteHostList) {
-            if (host.endsWith(white)) {
+            if (host.endsWith(white) && !host.contains("%")) {
                 return true;
             }
         }
@@ -59,7 +64,7 @@ public class OpenRedirectController {
     }
 
     /**
-     * 误报案例，从host取值，不可利用
+     * 误报案例，从headers取值，不可利用
      */
     @ApiOperation("误报案例, 参数从Header取值, 不可利用")
     @GetMapping("2")
@@ -83,8 +88,8 @@ public class OpenRedirectController {
      */
     @ApiOperation("误报案例, 使用getRequestURI拼接")
     @GetMapping("4")
-    public void redirect4(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String url = "https://www.example.com" + request.getRequestURI();
+    public void redirect4(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String url = "https://www.example.com/" + request.getRequestURI();
         response.sendRedirect(url);
     }
 }

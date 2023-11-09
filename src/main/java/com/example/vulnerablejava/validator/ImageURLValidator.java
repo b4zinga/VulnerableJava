@@ -19,7 +19,7 @@ public class ImageURLValidator implements ConstraintValidator<ImageURL, String> 
         boolean isValid = value.startsWith("https://");
         if (!isValid) {
             context.disableDefaultConstraintViolation();
-            String errorMsg = this.message +", invalid url: " + value;
+            String errorMsg = this.message + ", invalid url: " + value;
             context.buildConstraintViolationWithTemplate(errorMsg).addConstraintViolation();
         }
         return isValid;

@@ -19,7 +19,8 @@ import io.swagger.annotations.ApiOperation;
 public class SpelController {
 
     /**
-     * 存在SPEL注入漏洞，攻击者传入 ?name=T(java.lang.Runtime).getRuntime().exec('whoami') 即可执行whoami命令
+     * 存在SPEL注入漏洞，攻击者传入 ?name=T(java.lang.Runtime).getRuntime().exec('whoami')
+     * 即可执行whoami命令
      */
     @ApiOperation("存在SPEL注入漏洞")
     @GetMapping("1")
@@ -47,11 +48,11 @@ public class SpelController {
     @ApiOperation("误报案例, 表达式不可控")
     @GetMapping("2")
     public String spel2(String name) {
-       EvaluationContext context = new StandardEvaluationContext();
-       context.setVariable("name", name);
-       ExpressionParser parser = new SpelExpressionParser();
-       Expression expression = parser.parseExpression("'Hi,'+#name");
-       return expression.getValue(context).toString();
+        EvaluationContext context = new StandardEvaluationContext();
+        context.setVariable("name", name);
+        ExpressionParser parser = new SpelExpressionParser();
+        Expression expression = parser.parseExpression("'Hi,'+#name");
+        return expression.getValue(context).toString();
     }
 
     /**
@@ -65,7 +66,8 @@ public class SpelController {
     }
 
     /**
-     * 存在SPEL注入漏洞，攻击者传入 ?name=T(java.lang.Runtime).getRuntime().exec('whoami') 即可执行whoami命令
+     * 存在SPEL注入漏洞，攻击者传入 ?name=T(java.lang.Runtime).getRuntime().exec('whoami')
+     * 即可执行whoami命令
      */
     @ApiOperation("存在漏洞, 使用parseRaw().getValue()")
     @GetMapping("4")

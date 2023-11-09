@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 import com.example.vulnerablejava.utils.CSRFUtil;
 
 @Component
-public class CSRFFilter implements Filter{
+public class CSRFFilter implements Filter {
 
-    String[] checkUrlList = {"/csrf/safe2"};
+    String[] checkUrlList = { "/csrf/safe2" };
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

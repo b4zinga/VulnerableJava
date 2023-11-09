@@ -12,7 +12,7 @@ import com.example.vulnerablejava.realm.UserRealm;
 
 @Configuration
 public class ShiroConfig {
-    
+
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();

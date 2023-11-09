@@ -10,11 +10,13 @@ import javax.validation.Payload;
 
 import com.example.vulnerablejava.validator.ImageURLValidator;
 
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ImageURLValidator.class)
 public @interface ImageURL {
     String message() default "URL必须为https";
-    Class<?>[] groups() default{};
-    Class<?extends Payload>[] payload() default{};
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

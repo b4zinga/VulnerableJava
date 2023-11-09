@@ -26,29 +26,30 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("xpath")
 public class XpathInjectionController {
     final private String xmlString = "<users>" +
-                                        "<user username='myc' password='123456'>myc</user>" +
-                                        "<user username='tom' password='654321'>tom</user>" +
-                                    "</users>";
+            "<user username='myc' password='123456'>myc</user>" +
+            "<user username='tom' password='654321'>tom</user>" +
+            "</users>";
+
     /**
      * 存在漏洞，攻击者传入如下数据即可直接绕过校验
      * ?user=1' or 1=1 or ''='
      */
     @GetMapping("1")
     @ApiOperation("存在漏洞")
-    public String getUser(String user, String pass){
+    public String getUser(String user, String pass) {
         DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
         dFactory.setNamespaceAware(true);
-        try{
+        try {
             DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
             Document document = dBuilder.parse(new InputSource(new StringReader(xmlString)));
 
             XPathFactory xFactory = XPathFactory.newInstance();
             XPath xPath = xFactory.newXPath();
-            String expression = "/users/user[@username='"+user+"' and @password='"+pass+"']";
+            String expression = "/users/user[@username='" + user + "' and @password='" + pass + "']";
             // XPathExpression xExpression = xPath.compile(expression);
             Object evaluate = xPath.evaluate(expression, document, XPathConstants.STRING);
             return evaluate.toString();
-        } catch (Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -58,7 +59,7 @@ public class XpathInjectionController {
      */
     @GetMapping("2")
     @ApiOperation("修复漏洞")
-    public String getUser2(String user, String pass){
+    public String getUser2(String user, String pass) {
         DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
         dFactory.setNamespaceAware(true);
         try {
@@ -68,8 +69,8 @@ public class XpathInjectionController {
             XPathFactory xFactory = XPathFactory.newInstance();
             XPath xPath = xFactory.newXPath();
             String expression = "/users/user[@username=$user and @password=$pass]";
-            xPath.setXPathVariableResolver(v->{
-                switch(v.getLocalPart()){
+            xPath.setXPathVariableResolver(v -> {
+                switch (v.getLocalPart()) {
                     case "user":
                         return user;
                     case "pass":
@@ -89,7 +90,7 @@ public class XpathInjectionController {
      */
     @GetMapping("3")
     @ApiOperation("修复漏洞")
-    public String getUser3(String user, String pass){
+    public String getUser3(String user, String pass) {
         DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
         dFactory.setNamespaceAware(true);
         try {

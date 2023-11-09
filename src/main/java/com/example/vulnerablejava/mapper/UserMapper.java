@@ -8,13 +8,18 @@ import com.example.vulnerablejava.entity.User;
 @Mapper
 public interface UserMapper {
     User findUserByName(String name);
+
     User findUserByNameSafety(String name);
+
     User findUserByName2(String name);
+
     List<User> findAllUsers();
+
     int addUser(User user);
 
     // Mybatis like 注入
     List<User> searchUser(String name);
+
     List<User> safeSearchUser(String name);
 
     // Mybatis order by注入
@@ -22,5 +27,6 @@ public interface UserMapper {
 
     // Mybatis in 注入
     List<User> findUserByNameList(String names);
+
     List<User> safeFindUserByNameList(List<String> names);
 }

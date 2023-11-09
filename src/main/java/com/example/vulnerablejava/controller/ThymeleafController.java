@@ -25,8 +25,8 @@ public class ThymeleafController {
     @ApiOperation("渲染文件")
     @GetMapping("1")
     public String thymeleaf1(Model model, String name) {
-        if (name==null || "".equals(name)) {
-            name="test.jpg";
+        if (name == null || "".equals(name)) {
+            name = "test.jpg";
         }
         Image image = new Image();
         image.setName(name);
@@ -36,7 +36,8 @@ public class ThymeleafController {
     }
 
     /**
-     * 存在漏洞，thymeleaf-spring<=3.0.12时(例如: <spring-boot.version>2.5.7</spring-boot.version>)，存在SSTI漏洞
+     * 存在漏洞，thymeleaf-spring<=3.0.12时(例如:
+     * <spring-boot.version>2.5.7</spring-boot.version>)，存在SSTI漏洞
      * 攻击者传入如下payload即可执行系统命令
      * ?name=__%24%7BT(java.lang.Runtime).getRuntime().exec(%22open%20-a%20Calculator%22)%7D__%3A%3A.x
      * 或
@@ -62,7 +63,8 @@ public class ThymeleafController {
     }
 
     /**
-     * 误报案例，controller参数包含HttpServletResponse，Spring会认为它已经处理了HTTP Response，因此不会发生视图名称解析，所以不存在漏洞
+     * 误报案例，controller参数包含HttpServletResponse，Spring会认为它已经处理了HTTP
+     * Response，因此不会发生视图名称解析，所以不存在漏洞
      */
     @ApiOperation("误报案例")
     @GetMapping("4/{name}")

@@ -68,9 +68,9 @@ public class SqliController {
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 String info = String.format("ID: %s, UserName: %s, Password: %s\n",
-                                            rs.getInt("id"),
-                                            rs.getString("username"),
-                                            rs.getString("password"));
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"));
                 sb.append(info);
             }
         } catch (Exception e) {
@@ -94,9 +94,9 @@ public class SqliController {
             ResultSet rs = pStatement.executeQuery();
             while (rs.next()) {
                 String info = String.format("ID: %s, UserName: %s, Password: %s\n",
-                                            rs.getInt("id"),
-                                            rs.getString("username"),
-                                            rs.getString("password"));
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"));
                 sb.append(info);
             }
         } catch (Exception e) {
@@ -141,15 +141,15 @@ public class SqliController {
     @GetMapping("4")
     public String getUser4(String name) {
         String sql = String.format("SELECT * FROM users WHERE username='%s';", name);
-        Query query =  entityManager.createNativeQuery(sql);
+        Query query = entityManager.createNativeQuery(sql);
         StringBuilder sb = new StringBuilder();
         @SuppressWarnings("unchecked")
         List<Object[]> list = query.getResultList();
         for (Object[] objects : list) {
             String info = String.format("ID: %s, UserName: %s, Password: %s\n",
-                                        objects[0],
-                                        objects[1],
-                                        objects[2]);
+                    objects[0],
+                    objects[1],
+                    objects[2]);
             sb.append(info);
         }
         return sb.toString();
@@ -162,16 +162,16 @@ public class SqliController {
     @GetMapping("5")
     public String getUser5(String name) {
         String sql = "SELECT * FROM users WHERE username=?";
-        Query query =  entityManager.createNativeQuery(sql);
+        Query query = entityManager.createNativeQuery(sql);
         query.setParameter(1, name);
         StringBuilder sb = new StringBuilder();
         @SuppressWarnings("unchecked")
         List<Object[]> list = query.getResultList();
         for (Object[] objects : list) {
             String info = String.format("ID: %s, UserName: %s, Password: %s\n",
-                                        objects[0],
-                                        objects[1],
-                                        objects[2]);
+                    objects[0],
+                    objects[1],
+                    objects[2]);
             sb.append(info);
         }
         return sb.toString();
@@ -211,11 +211,11 @@ public class SqliController {
     @GetMapping("9")
     public String getUser9(String name) {
         String sql = String.format("SELECT * FROM users WHERE username='%s';", name);
-        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql);
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql);
         StringBuilder sb = new StringBuilder();
-        for (Map<String,Object> map : mapList) {
-            for (Map.Entry<String, Object>entry : map.entrySet()) {
-                String info = String.format("%s: %s\n",entry.getKey(), entry.getValue());
+        for (Map<String, Object> map : mapList) {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                String info = String.format("%s: %s\n", entry.getKey(), entry.getValue());
                 sb.append(info);
             }
         }
@@ -231,11 +231,11 @@ public class SqliController {
         String sql = "SELECT * FROM users WHERE username=:name";
         Map<String, Object> param = new HashMap<>();
         param.put("name", name);
-        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql, param);
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql, param);
         StringBuilder sb = new StringBuilder();
-        for (Map<String,Object> map : mapList) {
-            for (Map.Entry<String, Object>entry : map.entrySet()) {
-                String info = String.format("%s: %s\n",entry.getKey(), entry.getValue());
+        for (Map<String, Object> map : mapList) {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                String info = String.format("%s: %s\n", entry.getKey(), entry.getValue());
                 sb.append(info);
             }
         }

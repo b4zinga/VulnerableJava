@@ -33,7 +33,7 @@ public class ZipSlipController {
             while (zipEntry != null) {
                 String fileName = zipEntry.getName();
                 File f = new File(dataDir, fileName);
-                sb.append(f.getAbsolutePath()+"\n");
+                sb.append(f.getAbsolutePath() + "\n");
                 if (fileName.endsWith("/")) {
                     f.mkdir();
                 } else {
@@ -41,7 +41,7 @@ public class ZipSlipController {
                     BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
                     int n;
                     byte[] bytes = new byte[1024];
-                    while ((n=zipInputStream.read(bytes)) != -1) {
+                    while ((n = zipInputStream.read(bytes)) != -1) {
                         bufferedOutputStream.write(bytes, 0, n);
                     }
                     bufferedOutputStream.close();
@@ -73,7 +73,7 @@ public class ZipSlipController {
                     throw new Exception("非法文件");
                 }
                 File f = new File(dataDir, fileName);
-                sb.append(f.getAbsolutePath()+"\n");
+                sb.append(f.getAbsolutePath() + "\n");
                 if (fileName.endsWith("/")) {
                     f.mkdir();
                 } else {
@@ -81,7 +81,7 @@ public class ZipSlipController {
                     BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
                     int n;
                     byte[] bytes = new byte[1024];
-                    while ((n=zipInputStream.read(bytes)) != -1) {
+                    while ((n = zipInputStream.read(bytes)) != -1) {
                         bufferedOutputStream.write(bytes, 0, n);
                     }
                     bufferedOutputStream.close();

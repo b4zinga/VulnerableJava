@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.vulnerablejava.entity.User;
 import com.example.vulnerablejava.mapper.UserMapper;
 
-public class UserRealm extends AuthorizingRealm{
+public class UserRealm extends AuthorizingRealm {
 
     @Autowired
     private UserMapper userMapper;
@@ -26,7 +26,7 @@ public class UserRealm extends AuthorizingRealm{
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken arg0) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) arg0;
         User user = userMapper.findUserByNameSafety(token.getUsername());
-        if (user==null) { // 用户名不存在
+        if (user == null) { // 用户名不存在
             // 用户名不存在时, shiro底层会抛出UnknownAccountException异常
             return null;
         }

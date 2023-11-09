@@ -9,9 +9,9 @@ public class CommandUtil {
         try {
             Process p;
             if (System.getProperty("os.name").toLowerCase().indexOf("windows") == -1) {
-                p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
+                p = Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", command });
             } else {
-                p = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", command});
+                p = Runtime.getRuntime().exec(new String[] { "cmd.exe", "/c", command });
             }
             BufferedReader bf = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;

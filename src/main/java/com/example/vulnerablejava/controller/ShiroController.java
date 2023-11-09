@@ -32,7 +32,7 @@ public class ShiroController {
      */
     @ApiOperation("管理页面, 存在权限绕过漏洞")
     @GetMapping("admin")
-    public String admin(){
+    public String admin() {
         return "Admin Page";
     }
 
@@ -45,7 +45,7 @@ public class ShiroController {
     @ApiOperation("登陆页面")
     @GetMapping("login")
     public String login(String username, String password) {
-        if (username == null &&  password == null) {
+        if (username == null && password == null) {
             return "please login with ?username=&password=";
         }
         Subject subject = SecurityUtils.getSubject();

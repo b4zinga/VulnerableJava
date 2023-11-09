@@ -29,7 +29,7 @@ public class CSRFController {
 
     @ApiOperation("查询所有用户")
     @GetMapping("list")
-    public String listUsers(){
+    public String listUsers() {
         List<User> users = userMapper.findAllUsers();
         return users.toString();
     }
@@ -54,7 +54,8 @@ public class CSRFController {
      */
     @ApiOperation("修复CSRF漏洞, 增加CSRF Token校验")
     @GetMapping("safe")
-    public String safeAddUser(User newUser, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String safeAddUser(User newUser, HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         User user = (User) request.getSession().getAttribute("user");
         String csrfSessionToken = (String) request.getSession().getAttribute("csrftoken");
         String csrfFormToken = request.getParameter("_csrf");
@@ -70,8 +71,8 @@ public class CSRFController {
             response.addCookie(cookie);
         } else {
             if (csrfSessionToken.equals(csrfFormToken)) {
-                    userMapper.addUser(newUser);
-                    return "New user id: " + newUser.getId().toString();
+                userMapper.addUser(newUser);
+                return "New user id: " + newUser.getId().toString();
             }
         }
         return "非法请求";
@@ -82,7 +83,7 @@ public class CSRFController {
      */
     @ApiOperation("修复CSRF漏洞, 通过filter统一校验CSRF Token")
     @GetMapping("safe2")
-    public String safeAddUser2(User newUser,  HttpServletRequest request) {
+    public String safeAddUser2(User newUser, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
             userMapper.addUser(newUser);

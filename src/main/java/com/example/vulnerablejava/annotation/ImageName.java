@@ -10,11 +10,13 @@ import javax.validation.Payload;
 
 import com.example.vulnerablejava.validator.ImageNameValidator;
 
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ImageNameValidator.class)
 public @interface ImageName {
     String message() default "Name长度必须等于3";
-    Class<?>[] groups() default{};
-    Class<?extends Payload>[] payload() default{};
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

@@ -18,13 +18,13 @@ public class ImageNameValidator implements ConstraintValidator<ImageName, String
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        boolean isValid = value.length()==3?true:false;
+        boolean isValid = value.length() == 3 ? true : false;
         if (!isValid) {
             context.disableDefaultConstraintViolation();
-            String errorMsg = this.message +", invalid name: " + value;
+            String errorMsg = this.message + ", invalid name: " + value;
 
             // 修复漏洞，使用参数化消息模板 代替 字符串串联
-            HibernateConstraintValidatorContext  safeContext = context.unwrap(HibernateConstraintValidatorContext.class);
+            HibernateConstraintValidatorContext safeContext = context.unwrap(HibernateConstraintValidatorContext.class);
             safeContext.addExpressionVariable("userPovidedValue", errorMsg);
             context.buildConstraintViolationWithTemplate("${userPovidedValue}").addConstraintViolation();
         }

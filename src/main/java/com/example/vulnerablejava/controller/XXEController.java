@@ -21,7 +21,8 @@ import io.swagger.annotations.ApiOperation;
 public class XXEController {
 
     /**
-     * 存在XXE漏洞，攻击者传入 ?xml=<?xml version="1.0" encoding="utf-8"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><name>&xxe;</name> 即可读取系统文件
+     * 存在XXE漏洞，攻击者传入 ?xml=<?xml version="1.0" encoding="utf-8"?><!DOCTYPE foo
+     * [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><name>&xxe;</name> 即可读取系统文件
      */
     @ApiOperation("存在XXE漏洞")
     @GetMapping("1")
@@ -34,7 +35,7 @@ public class XXEController {
             NodeList nodeList = document.getElementsByTagName("name");
             for (int i = 0; i < nodeList.getLength(); i++) {
                 String name = document.getElementsByTagName("name").item(i).getFirstChild().getNodeValue();
-                sb.append("name: "+name);
+                sb.append("name: " + name);
             }
         } catch (Exception e) {
             sb.append(e.getMessage());
@@ -50,7 +51,7 @@ public class XXEController {
     public String safeParse(String xml) {
         StringBuilder sb = new StringBuilder();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        String FEATURE=null;
+        String FEATURE = null;
         try {
             FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
             dbf.setFeature(FEATURE, true);
@@ -66,9 +67,9 @@ public class XXEController {
             DocumentBuilder builder = dbf.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(xml)));
             NodeList nodeList = document.getElementsByTagName("name");
-            for (int i=0; i<nodeList.getLength();i++) {
+            for (int i = 0; i < nodeList.getLength(); i++) {
                 String name = document.getElementsByTagName("name").item(i).getFirstChild().getNodeValue();
-                sb.append("name: "+name + ", ");
+                sb.append("name: " + name + ", ");
             }
         } catch (Exception e) {
             sb.append(e.getMessage());

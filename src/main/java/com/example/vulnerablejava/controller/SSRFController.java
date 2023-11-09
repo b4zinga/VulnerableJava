@@ -1,9 +1,12 @@
 package com.example.vulnerablejava.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,9 +37,9 @@ public class SSRFController {
      * 存在SSRF漏洞，攻击者传入 ?url=http://10.10.10.1/admin 即可访问内网
      *
      * 或使用其他协议进行利用，如
-     *      ?url=file:///etc/passwd 或 ?url=file:///c:/windows/win.ini 读取文件
-     *      ?url=netdoc:///c:/1.txt 读文件
-     *      ?url=ftp://admin:123456@192.168.154.129:21/1.txt 连接ftp
+     * ?url=file:///etc/passwd 或 ?url=file:///c:/windows/win.ini 读取文件
+     * ?url=netdoc:///c:/1.txt 读文件
+     * ?url=ftp://admin:123456@192.168.154.129:21/1.txt 连接ftp
      */
     @ApiOperation("存在SSRF漏洞")
     @GetMapping("1")
@@ -58,7 +61,7 @@ public class SSRFController {
     }
 
     public static boolean checkParameter(String url) {
-        String[] urlWhiteList = {"https://img.example.com/", "https://cdn.example.com/"}; // url白名单，以 / 结尾
+        String[] urlWhiteList = { "https://img.example.com/", "https://cdn.example.com/" }; // url白名单，以 / 结尾
         for (String whiteUrl : urlWhiteList) {
             if (url.startsWith(whiteUrl)) {
                 return true;
@@ -81,6 +84,7 @@ public class SSRFController {
      * 误报案例，URL为常量拼接，不可利用
      */
     private String HOST = "http://www.example.com/";
+
     @ApiOperation("误报案例, 常量域名拼接变量参数")
     @GetMapping("3")
     public String download3(String name) {
@@ -167,13 +171,14 @@ public class SSRFController {
 
     /**
      * 存在漏洞，存在白名单校验，但可被绕过
-     * curl "http://127.0.0.1:8080/ssrf/9?url=http://127.0.0.1:5000/a?id=https://www.example.com/"
+     * curl
+     * "http://127.0.0.1:8080/ssrf/9?url=http://127.0.0.1:5000/a?id=https://www.example.com/"
      */
     @ApiOperation("误报案例, 存在白名单校验（但可被绕过）")
     @GetMapping("9")
     public String download9(Image image) {
         String url = image.getUrl();
-        String[] whiteUrlList = new String[]{"https://www.example.com/"};
+        String[] whiteUrlList = new String[] { "https://www.example.com/" };
         boolean flag = Stream.of(whiteUrlList).anyMatch(url::contains);
         if (flag) {
             return HttpUtil.doGet(image.getUrl());
@@ -189,7 +194,7 @@ public class SSRFController {
     @GetMapping("10")
     public String download10(Image image) {
         String url = image.getUrl();
-        String[] whiteUrlList = new String[]{"https://www.example.com/"};
+        String[] whiteUrlList = new String[] { "https://www.example.com/" };
         boolean flag = Stream.of(whiteUrlList).anyMatch(url::startsWith);
         if (flag) {
             return HttpUtil.doGet(image.getUrl());
@@ -233,5 +238,16 @@ public class SSRFController {
     public String download13(String name) {
         Image image = new Image(name, "https://www.example.com");
         return HttpUtil.doGet(image.getUrl());
+    }
+
+    /**
+     * 误报案例，
+     */
+    @ApiOperation("误报案例, ")
+    @GetMapping("14")
+    public String download14(String url) {
+        List<String> urls = Arrays.asList(url, "http://www.baidu.com");
+        List<String> resp = urls.stream().map(u -> HttpUtil.doGet(u)).collect(Collectors.toList());
+        return resp.toString();
     }
 }

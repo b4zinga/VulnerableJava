@@ -14,8 +14,8 @@ public class HttpUtil {
             connection.setConnectTimeout(3000);
             String line;
             BufferedReader bf = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            while ((line=bf.readLine()) != null) {
-                sb.append(line+"\n");
+            while ((line = bf.readLine()) != null) {
+                sb.append(line + "\n");
             }
         } catch (Exception e) {
             sb.append(e.getMessage());
