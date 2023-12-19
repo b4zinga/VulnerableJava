@@ -49,7 +49,6 @@ public class OpenRedirectController {
             url = url.replaceAll("[\\\\#]", "/");
             host = new URL(url).getHost();
             host = URLEncoder.encode(host, "UTF-8");
-            System.out.println(host);
         } catch (MalformedURLException e) {
             return false;
         } catch (UnsupportedEncodingException e) {

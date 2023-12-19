@@ -241,13 +241,37 @@ public class SSRFController {
     }
 
     /**
-     * 误报案例，
+     * 存在漏洞，使用stream.map
      */
-    @ApiOperation("误报案例, ")
+    @ApiOperation("使用stream.map")
     @GetMapping("14")
     public String download14(String url) {
         List<String> urls = Arrays.asList(url, "http://www.baidu.com");
         List<String> resp = urls.stream().map(u -> HttpUtil.doGet(u)).collect(Collectors.toList());
         return resp.toString();
+    }
+
+    /*
+     * 误报案例，put和get取值不同
+     */
+    @ApiOperation("误报案例, put和get取值不同")
+    @GetMapping("15")
+    public String download15(String url) {
+        Map<String, String> obj = new HashMap<>();
+        obj.put("name", "tom");
+        obj.put("url", url);
+        return HttpUtil.doGet(obj.get("name"));
+    }
+
+    /*
+     * 存在漏洞，put和get取值不同
+     */
+    @ApiOperation("存在漏洞, put和get取值相同")
+    @GetMapping("16")
+    public String download16(String url) {
+        Map<String, String> obj = new HashMap<>();
+        obj.put("name", "tom");
+        obj.put("url", url);
+        return HttpUtil.doGet(obj.get("url"));
     }
 }
