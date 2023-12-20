@@ -13,6 +13,10 @@
         SELECT * FROM ${table} WHERE username=#{name};
     </select>
 
+    <select id="findUserByName3" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users WHERE username=#{username} and password=${password};
+    </select>
+
     <select id="findAllUsers" resultType="com.example.vulnerablejava.entity.User">
         SELECT * FROM users;
     </select>

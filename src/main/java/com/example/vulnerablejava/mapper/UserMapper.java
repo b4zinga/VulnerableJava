@@ -13,6 +13,8 @@ public interface UserMapper {
 
     User findUserByName2(String name);
 
+    User findUserByName3(User user);
+
     List<User> findAllUsers();
 
     int addUser(User user);

@@ -306,4 +306,16 @@ public class SqliController {
     public String safeFindUserByNameList(@RequestParam List<String> names) {
         return userMapper.safeFindUserByNameList(names).toString();
     }
+
+    /**
+     * 误报案例，mybatis框架下，mapper中存在$，但不可控
+     */
+    @ApiOperation("误报案例, mybatis框架下, mapper中存在$,但不可控")
+    @GetMapping("17")
+    public String getUser17(String name) {
+        User u = new User();
+        u.setUsername(name);
+        u.setPassword("123456");
+        return userMapper.findUserByName3(u).toString();
+    }
 }
