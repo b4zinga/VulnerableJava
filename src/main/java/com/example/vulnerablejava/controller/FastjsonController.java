@@ -2,7 +2,11 @@ package com.example.vulnerablejava.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +48,28 @@ public class FastjsonController {
         image.setUrl("http://www.example.com/");
         Map<String, Object> params = JSONObject.parseObject(JSONObject.toJSONString(image));
         return params.toString();
+    }
+
+    @ApiOperation("不存在漏洞")
+    @PostMapping("3")
+    public String read3(@RequestBody String json) {
+        Object parse = JSON.parseObject(json, Image.class);
+        return parse.toString();
+    }
+
+    @ApiOperation("存在漏洞")
+    @PostMapping("4")
+    public String read4(String json) {
+        Object parse = JSON.parseObject(json);
+        return parse.toString();
+    }
+
+    @ApiOperation("存在漏洞")
+    @PostMapping("5")
+    public String read5(HttpServletRequest request) {
+        System.out.println(request.getParameter("jsonStr"));
+        Object parse = JSON.parseObject(request.getParameter("jsonStr"));
+        return parse.toString();
     }
 
     /**
