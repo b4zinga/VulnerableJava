@@ -174,7 +174,7 @@ public class SSRFController {
      * curl
      * "http://127.0.0.1:8080/ssrf/9?url=http://127.0.0.1:5000/a?id=https://www.example.com/"
      */
-    @ApiOperation("误报案例, 存在白名单校验（但可被绕过）")
+    @ApiOperation("存在漏洞, 存在白名单校验（但可被绕过）")
     @GetMapping("9")
     public String download9(Image image) {
         String url = image.getUrl();
@@ -264,7 +264,7 @@ public class SSRFController {
     }
 
     /*
-     * 存在漏洞，put和get取值不同
+     * 存在漏洞，put和get取值相同
      */
     @ApiOperation("存在漏洞, put和get取值相同")
     @GetMapping("16")
