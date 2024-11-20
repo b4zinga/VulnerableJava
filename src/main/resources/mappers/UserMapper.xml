@@ -17,6 +17,23 @@
         SELECT * FROM users WHERE username=#{username} and password=${password};
     </select>
 
+    <select id="findUserByColumn" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users
+        <where>
+            ${column}=#{value};
+        </where>
+    </select>
+
+    <select id="findUserByColumnSafe" resultType="com.example.vulnerablejava.entity.User">
+        SELECT * FROM users
+        <where>
+            <if test="column != null and column.matches('^[a-zA-Z0-9_]+$')">
+                <bind name="dynamicColumn" value="'${column}'"/>
+                ${dynamicColumn} = #{value}
+            </if>
+        </where>
+    </select>
+
     <select id="findAllUsers" resultType="com.example.vulnerablejava.entity.User">
         SELECT * FROM users;
     </select>

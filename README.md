@@ -17,7 +17,7 @@
 | Thymeleaf注入 | 2 | 1 |
 | Velocity注入 | 1 | |
 | Groovy注入 | 4 | |
-| SQL注入 | 7 | 12 |
+| SQL注入 | 8 | 13 |
 | Xpath注入 | 1 | 2 |
 | SSRF | 6 | 11 |
 | CSRF | 1 | 2 |

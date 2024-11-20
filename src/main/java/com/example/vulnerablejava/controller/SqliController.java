@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vulnerablejava.dao.UserDao;
+import com.example.vulnerablejava.dto.UserQuery;
 import com.example.vulnerablejava.entity.User;
 import com.example.vulnerablejava.mapper.UserMapper;
 import com.example.vulnerablejava.utils.MybatisOrderByUtils;
@@ -317,5 +318,29 @@ public class SqliController {
         u.setUsername(name);
         u.setPassword("123456");
         return userMapper.findUserByName3(u).toString();
+    }
+
+    /**
+     * 存在漏洞，mybatis框架下，使用动态列名导致注入
+     */
+    @ApiOperation("存在漏洞, mybatis框架下, 动态列名导致注入")
+    @GetMapping("18")
+    public String getUser18(String col, String val) {
+        UserQuery query = new UserQuery();
+        query.setColumn(col);
+        query.setValue(val);
+        return userMapper.findUserByColumn(query).toString();
+    }
+
+    /**
+     * 漏洞修复，mybatis框架下，安全的使用动态列名
+     */
+    @ApiOperation("漏洞修复, mybatis框架下, 动态列名替换")
+    @GetMapping("19")
+    public String getUser19(String col, String val) {
+        UserQuery query = new UserQuery();
+        query.setColumn(col);
+        query.setValue(val);
+        return userMapper.findUserByColumnSafe(query).toString();
     }
 }

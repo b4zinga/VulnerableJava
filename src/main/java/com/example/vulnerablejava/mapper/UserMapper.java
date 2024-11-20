@@ -3,6 +3,8 @@ package com.example.vulnerablejava.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import com.example.vulnerablejava.dto.UserQuery;
 import com.example.vulnerablejava.entity.User;
 
 @Mapper
@@ -14,6 +16,10 @@ public interface UserMapper {
     User findUserByName2(String name);
 
     User findUserByName3(User user);
+
+    User findUserByColumn(UserQuery query); // 动态列名
+
+    User findUserByColumnSafe(UserQuery query); // 安全动态列名
 
     List<User> findAllUsers();
 
