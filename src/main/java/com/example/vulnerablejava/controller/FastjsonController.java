@@ -59,7 +59,7 @@ public class FastjsonController {
 
     @ApiOperation("存在漏洞")
     @PostMapping("4")
-    public String read4(String json) {
+    public String read4(@RequestBody String json) {
         Object parse = JSON.parseObject(json);
         return parse.toString();
     }

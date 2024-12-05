@@ -1,6 +1,7 @@
 package com.example.vulnerablejava.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,12 +13,14 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.vulnerablejava.entity.Image;
 import com.example.vulnerablejava.utils.HttpUtil;
@@ -273,5 +276,31 @@ public class SSRFController {
         obj.put("name", "tom");
         obj.put("url", url);
         return HttpUtil.doGet(obj.get("url"));
+    }
+
+    /*
+     * 存在漏洞，使用UriComponentsBuilder构建URL
+     */
+    @ApiOperation("存在漏洞, 使用UriComponentsBuilder构建URL")
+    @GetMapping("17")
+    public String download17(String url) {
+        URI path = UriComponentsBuilder.fromHttpUrl(url).build().toUri();
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.exchange(path, HttpMethod.GET, null, String.class).toString();
+    }
+
+    /*
+     * 误报案例，使用UriComponentsBuilder，但url不可控
+     */
+    @ApiOperation("误报案例,使用UriComponentsBuilder, 但url不可控")
+    @GetMapping("18")
+    public String download18(String url) {
+        URI path = UriComponentsBuilder
+                .fromHttpUrl("http://www.baidu.com")
+                .build()
+                .expand("wd", url)
+                .toUri();
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.exchange(path, HttpMethod.GET, null, String.class).toString();
     }
 }
