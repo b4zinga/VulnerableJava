@@ -34,7 +34,7 @@ import okhttp3.Response;
 @Api(tags = "SSRF漏洞")
 @RestController
 @RequestMapping("ssrf")
-public class SSRFController {
+public class SSRFController implements SSRFInterfaceController {
 
     /**
      * 存在SSRF漏洞，攻击者传入 ?url=http://10.10.10.1/admin 即可访问内网
@@ -302,5 +302,13 @@ public class SSRFController {
                 .toUri();
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.exchange(path, HttpMethod.GET, null, String.class).toString();
+    }
+
+    /**
+     * override重写方法，不在当前函数中使用mapping函数映射api路径
+     */
+    @Override
+    public String Interface1(String url) {
+        return HttpUtil.doGet(url);
     }
 }

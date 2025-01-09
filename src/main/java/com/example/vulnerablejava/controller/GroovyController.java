@@ -20,7 +20,7 @@ import groovy.util.ScriptException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api("Groovy漏洞")
+@Api(tags = "Groovy注入漏洞")
 @RestController
 @RequestMapping("groovy")
 public class GroovyController {
